@@ -51,6 +51,7 @@ namespace AzureApp.Menu.Blob
                         await blob.UploadFromFileAsync((blobPath));
 
                         Console.WriteLine($"Blob uri: {blob.Uri}");
+                        await TextCopy.Clipboard.SetTextAsync(blob.Uri.ToString());
                     }
                 }
                 else
