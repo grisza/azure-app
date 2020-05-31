@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
+using AzureApp.Menu.Table.Entities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace AzureApp.Menu.Table
 {
@@ -13,9 +16,21 @@ namespace AzureApp.Menu.Table
         protected override async Task Execute()
         {
             // TODO: Implement
+            CloudTableClient client = TablesHelper.GetClient(StorageConnectionString);
+            CloudTable table = await TablesHelper.SelectTable(client);
 
+            Console.WriteLine();
+            Console.WriteLine("Name:" );
+            string name = Console.ReadLine();
+            Console.WriteLine("Last Name:");
+            string lastName = Console.ReadLine();
+            Console.WriteLine("Age:");
+            string age = Console.ReadLine();
 
-            throw new NotImplementedException();
+            UserEntity entity = new UserEntity(lastName, name, int.Parse(age));
+
+            TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(entity);
+            await table.ExecuteAsync(insertOrMergeOperation);
         }
     }
 }

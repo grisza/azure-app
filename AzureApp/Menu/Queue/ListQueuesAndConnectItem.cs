@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +20,12 @@ namespace AzureApp.Menu.Queue
             Console.WriteLine("-----List queues and connect to selected Queue-----");
 
             //TODO: Create cloud queue client
+            CloudQueueClient queueClient = QueueHelper.GetClient(StorageConnectionString);
             //TODO: List existing queues
-            //TODO: Assign selected queue to the context
+            CloudQueue queue = await QueueHelper.SelectQueue(queueClient);
 
-            throw new NotImplementedException();
+            //TODO: Assign selected queue to the context
+            QueueContext.Instance.SelectedCloudQueue = queue;
         }
     }
 }

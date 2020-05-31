@@ -7,6 +7,11 @@ namespace AzureApp.Menu.Table.Entities
 {
     public class UserEntity : TableEntity
     {
+        public UserEntity()
+        {
+
+        }
+
         public UserEntity(string lastName, string firstName, int age)
         {
             this.PartitionKey = lastName;
@@ -24,5 +29,10 @@ namespace AzureApp.Menu.Table.Entities
         }
         public int Age { get; set; }
         public DateTime CreationTime { get; set; }
+
+        public override string ToString()
+        {
+            return $"Name: {Name}\tAge: {Age}\tCreation Time: {CreationTime}\tETag: {ETag}";
+        }
     }
 }

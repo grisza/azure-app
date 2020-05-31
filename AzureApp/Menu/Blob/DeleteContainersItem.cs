@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace AzureApp.Menu.Blob
 {
@@ -15,10 +16,13 @@ namespace AzureApp.Menu.Blob
             Console.Clear();
             Console.WriteLine("-----Delete Container-----");
 
-            // TODO: IMPLEMENT LISTING OF CONTAINERS TO PICK AND CONTAINER SELECTION
-            // TODO: DELETE SELECTED CONTAINER
+            CloudBlobClient blobClient = TablesHelper.GetClient(StorageConnectionString);
 
-            throw new NotImplementedException();
+            // TODO: IMPLEMENT LISTING OF CONTAINERS TO PICK AND CONTAINER SELECTION
+            CloudBlobContainer blobContainer = await TablesHelper.SelectContainer(blobClient);
+
+            // TODO: DELETE SELECTED CONTAINER
+            await blobContainer.DeleteIfExistsAsync();
         }
     }
 }

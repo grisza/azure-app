@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace AzureApp.Menu.Table
 {
@@ -13,9 +14,9 @@ namespace AzureApp.Menu.Table
         protected override async Task Execute()
         {
             // TODO: Implement
-
-
-            throw new NotImplementedException();
+            CloudTableClient client = TablesHelper.GetClient(StorageConnectionString);
+            CloudTable table = await TablesHelper.SelectTable(client);
+            await table.DeleteIfExistsAsync();
         }
     }
 }

@@ -14,16 +14,19 @@ namespace AzureApp.Menu.Blob
         }
 
         protected override async Task Execute()
-        {
-          
+        {            
             Console.Clear();
             Console.WriteLine("-----Delete Blob-----");
 
-            // TODO: IMPLEMENT LISTING OF CONTAINERS TO PICK AND CONTAINER SELECTION
-            // TODO: IMPLEMENT LISTING OF BLOBS IN CONTAINER TO PICK AND BLOB SELECTION
-            // TODO: DELETE SELECTED BLOB
+            CloudBlobClient blobClient = TablesHelper.GetClient(StorageConnectionString);
 
-            throw new NotImplementedException();
+            // TODO: IMPLEMENT LISTING OF CONTAINERS TO PICK AND CONTAINER SELECTION
+            CloudBlobContainer blobContainer = await TablesHelper.SelectContainer(blobClient);
+
+            // TODO: IMPLEMENT LISTING OF BLOBS IN CONTAINER TO PICK AND BLOB SELECTION
+            CloudBlockBlob blob = (CloudBlockBlob)await TablesHelper.SelectBlob(blobContainer);
+            // TODO: DELETE SELECTED BLOB
+            await blob.DeleteIfExistsAsync();
         }
     }
 }

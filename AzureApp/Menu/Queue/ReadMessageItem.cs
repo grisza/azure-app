@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,12 +20,23 @@ namespace AzureApp.Menu.Queue
             Console.WriteLine("-----Read message from Queue-----");
 
             // TODO: get cloud queue connection from the context
-            // TODO: get serialized message
-            // TODO: deserialize message to the Message object
-            // TODO: display message
-            // TODO: display queue message data as well
+            CloudQueue queue = QueueContext.Instance.SelectedCloudQueue;
 
-            throw new NotImplementedException();
+            // TODO: get serialized message
+            CloudQueueMessage cloudQueueMessage = await queue.GetMessageAsync();
+
+            // TODO: deserialize message to the Message object
+            Message message = Message.FromJson(cloudQueueMessage.AsString);
+
+            // TODO: display message
+            Console.WriteLine();
+            Console.WriteLine(message.ToString());
+
+            // TODO: display queue message data as well
+            Console.WriteLine();
+            Console.WriteLine(cloudQueueMessage.ToString());
+
+            await queue.DeleteMessageAsync(cloudQueueMessage);
         }
     }
 }

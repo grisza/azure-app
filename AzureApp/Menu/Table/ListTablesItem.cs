@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace AzureApp.Menu.Table
 {
@@ -14,7 +15,8 @@ namespace AzureApp.Menu.Table
         {
             // TODO: Implement
 
-            throw new NotImplementedException();
+            CloudTableClient client = TablesHelper.GetClient(StorageConnectionString);
+            await TablesHelper.DisplayTables(client);
         }
     }
 }

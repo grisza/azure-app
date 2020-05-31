@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,11 +20,20 @@ namespace AzureApp.Menu.Queue
             Console.WriteLine("-----Update existing message in Queue-----");
 
             // TODO: Get the message from the selected queue context
-            // TODO: Set new content on the selected message
-            // TODO: Update message on the queue context
-            
+            CloudQueue queue = QueueContext.Instance.SelectedCloudQueue;
+            CloudQueueMessage cloudQueueMessage = await queue.GetMessageAsync();
 
-            throw new NotImplementedException();
+            // TODO: Set new content on the selected message
+            Message message = Message.FromJson(cloudQueueMessage.AsString);
+            message.Body += "-- Content updated";
+            cloudQueueMessage.SetMessageContent(message.ToJson());
+
+            // TODO: Update message on the queue context
+            await queue.UpdateMessageAsync(
+                cloudQueueMessage,
+                TimeSpan.Zero,
+                MessageUpdateFields.Content |
+                MessageUpdateFields.Visibility);
         }
     }
 }

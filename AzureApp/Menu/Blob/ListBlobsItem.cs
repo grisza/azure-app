@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace AzureApp.Menu.Blob
 {
@@ -15,10 +19,13 @@ namespace AzureApp.Menu.Blob
             Console.Clear();
             Console.WriteLine("-----Blobs listing-----");
 
-            // TODO: IMPLEMENT LISTING OF CONTAINERS TO PICK AND CONTAINER SELECTION
-            // TODO: DISPLAY LIST OF BLOBS IN SELECTED CONTAINER
+            CloudBlobClient blobClient = TablesHelper.GetClient(StorageConnectionString);
 
-            throw new NotImplementedException();
+            // TODO: IMPLEMENT LISTING OF CONTAINERS TO PICK AND CONTAINER SELECTION
+            CloudBlobContainer blobContainer = await TablesHelper.SelectContainer(blobClient);
+
+            // TODO: DISPLAY LIST OF BLOBS IN SELECTED CONTAINER
+            await TablesHelper.DisplayBlobs(blobContainer);
         }
     }
 }

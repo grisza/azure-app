@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,11 +20,17 @@ namespace AzureApp.Menu.Queue
             Console.WriteLine("-----Peak the message from Queue-----");
 
             // TODO: get cloud queue connection from the context
-            // TODO: Peak serialized message
-            // TODO: deserialize message to the Message object
-            // TODO: display message
+            CloudQueue queue = QueueContext.Instance.SelectedCloudQueue;
 
-            throw new NotImplementedException();
+            // TODO: Peak serialized message
+            CloudQueueMessage cloudQueueMessage = await queue.PeekMessageAsync();
+
+            // TODO: deserialize message to the Message object
+            Message message = Message.FromJson(cloudQueueMessage.AsString);
+
+            // TODO: display message
+            Console.WriteLine();
+            Console.WriteLine(message.ToString());
         }
     }
 }
